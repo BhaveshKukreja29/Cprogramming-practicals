@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <conio.h>
 
-void insert(int a[],int *size, int b, int l){
+int insert(int a[],int *size, int b, int l){
 	int i;
-	if(l<*size){
-	for(i=*size-1;i>=l;i--){
-		a[i+1] = a[i]; }
-	a[l]=b;
+	if (l <* size){
+		for(i = *size - 1 ; i>= l ; i--){
+		a[i+1] = a[i];
+		}
+		a[l]=b;
 
-	printf("Here is the array after inserting your number: \n");
-	for(i=0;i<*size;i++){
-		printf("%d  ", a[i]);
-	}}
-	else{printf("The location is out of array. Please try with a location inside the array.");}
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 
@@ -21,38 +23,40 @@ int search(int a[], int *size, int num){
 	int x;
 	for(i=0;i<*size;i++){
 		if(a[i]==num){
-			printf("The number is present at %d index",i);
+			printf("The number is present at %d index. \n",i);
 			x = i;
+			break;
 		}
-		else {
+		else
+		{
 			x= -1;
-			}
+		}
 	}
-	if(x==-1)printf("The number does not exist in the array.");
-
-return x;
+	return x;
 }
 
 
-void delete_element(int a[],int *size,int num){
+int delete_element(int a[],int *size,int num){
 
 	int i;
 	int j=0;
 	int z;
 	z = search(a,size,num);
 	i = z;
-	if(z==-1){printf("The number does not exist.");}
-	else{
-		for(j=j+i+1;j<*size;j++){
+	if(z==-1)
+	{
+		printf("The number does not exist.\n\n");
+		return 0;
+	}
+	else
+	{
+		for(j=j+i;j<*size;j++)
+		{
 			a[j]=a[j+1];
 		}
-		printf("Array after deleting your element is: ");
-		for(j=0;j<*size;j++){
-			printf("%d ", a[i]);
-		}
+		return 1;
 	}
 }
-
 
 void sort(int a[], int *size){
 	int i;
@@ -93,6 +97,7 @@ int main()
 	int insnum;
 	int location;
 	int num;
+	int ans = 0;
 
 	clrscr();
 	printf("Enter the length of Array: ");
@@ -113,6 +118,7 @@ int main()
 	printf("1.Insert 2.search 3.delelte 4. sort the array 5.exit \n\n");
 	printf("Enter your choice (1,2,3,4,5): ");
 	scanf("%d", &choice);
+	printf("\n");
 
 	switch(choice){
 		case 1:
@@ -122,8 +128,20 @@ int main()
 			printf("At which index position should it be inserted?: ");
 			scanf(" %d", &location);
 
-			insert(a,&size,insnum,location);
-			size++;
+			ans = insert(a,&size,insnum,location);
+			if (ans == 1)
+			{
+				size++;
+				printf("Here is your Array after inserting the new number: \n\n");
+				for (i = 0 ; i < size ; i++)
+				{
+					printf("%d", a[i]);
+				}
+			}
+			else
+			{
+				printf("Please enter a valid position inside the array.\n\n");
+			}
 			break;
 		case 2:
 			printf("Enter the number you wish to search for: ");
@@ -135,8 +153,19 @@ int main()
 			printf("Enter the number you wish to delete: ");
 			scanf("%d", &num);
 
-			delete_element(a,&size,num);
-			size--;
+			ans = delete_element(a,&size,num);
+
+			if ( ans == 1 )
+			{
+				size--;
+				printf("Here is your array after deleting that number: \n");
+				printf("[ ");
+				for (i = 0 ; i < size ; i++)
+				{
+					printf("%d ", a[i]);
+				}
+				printf("]\n\n");
+			}
 			break;
 		case 4:
 			sort(a,&size);
